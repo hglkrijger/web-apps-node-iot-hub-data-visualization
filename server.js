@@ -29,7 +29,7 @@ wss.broadcast = function broadcast(data) {
   });
 };
 
-var iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
+var iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'] || 'Endpoint=sb://ihsuprodbyres035dednamespace.servicebus.windows.net/;SharedAccessKeyName=iothubowner;SharedAccessKey=QKH6Fu4K4wYZ53329VHnK7o4Bt1t0N0ruFpobS6G2lI=;EntityPath=iothub-ehub-vocmon-1309200-c1ac59d238', process.env['Azure.IoT.IoTHub.ConsumerGroup'] || 'webapp');
 iotHubReader.startReadMessage(function (obj, date) {
   try {
     console.log(date);
