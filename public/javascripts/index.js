@@ -1,31 +1,31 @@
 $(document).ready(function () {
   var timeData = [],
-    temperatureData = [],
-    humidityData = [];
+    eco2Data = [],
+    tvocData = [];
   var data = {
     labels: timeData,
     datasets: [
       {
         fill: false,
-        label: 'Temperature',
-        yAxisID: 'Temperature',
+        label: 'eCO2',
+        yAxisID: 'eCO2',
         borderColor: "rgba(255, 204, 0, 1)",
         pointBoarderColor: "rgba(255, 204, 0, 1)",
         backgroundColor: "rgba(255, 204, 0, 0.4)",
         pointHoverBackgroundColor: "rgba(255, 204, 0, 1)",
         pointHoverBorderColor: "rgba(255, 204, 0, 1)",
-        data: temperatureData
+        data: eco2Data
       },
       {
         fill: false,
-        label: 'Humidity',
-        yAxisID: 'Humidity',
+        label: 'TVOC',
+        yAxisID: 'TVOC',
         borderColor: "rgba(24, 120, 240, 1)",
         pointBoarderColor: "rgba(24, 120, 240, 1)",
         backgroundColor: "rgba(24, 120, 240, 0.4)",
         pointHoverBackgroundColor: "rgba(24, 120, 240, 1)",
         pointHoverBorderColor: "rgba(24, 120, 240, 1)",
-        data: humidityData
+        data: tvocData
       }
     ]
   }
@@ -33,23 +33,23 @@ $(document).ready(function () {
   var basicOption = {
     title: {
       display: true,
-      text: 'Temperature & Humidity Real-time Data',
+      text: 'VOC Real-time Data',
       fontSize: 36
     },
     scales: {
       yAxes: [{
-        id: 'Temperature',
+        id: 'eCO2',
         type: 'linear',
         scaleLabel: {
-          labelString: 'Temperature(C)',
+          labelString: 'eCO2(ppm)',
           display: true
         },
         position: 'left',
       }, {
-          id: 'Humidity',
+          id: 'TVOC',
           type: 'linear',
           scaleLabel: {
-            labelString: 'Humidity(%)',
+            labelString: 'TVOC(ppb)',
             display: true
           },
           position: 'right'
@@ -74,24 +74,24 @@ $(document).ready(function () {
     console.log('receive message' + message.data);
     try {
       var obj = JSON.parse(message.data);
-      if(!obj.time || !obj.temperature) {
+      if(!obj.time || !obj.tvoc) {
         return;
       }
       timeData.push(obj.time);
-      temperatureData.push(obj.temperature);
+      tvocData.push(obj.tvoc);
       // only keep no more than 50 points in the line chart
       const maxLen = 50;
       var len = timeData.length;
       if (len > maxLen) {
         timeData.shift();
-        temperatureData.shift();
+        tvocData.shift();
       }
 
-      if (obj.humidity) {
-        humidityData.push(obj.humidity);
+      if (obj.eco2) {
+        eco2Data.push(obj.eco2);
       }
-      if (humidityData.length > maxLen) {
-        humidityData.shift();
+      if (eco2Data.length > maxLen) {
+        eco2Data.shift();
       }
 
       myLineChart.update();
