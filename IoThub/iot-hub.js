@@ -39,6 +39,8 @@ IoTHubReaderClient.prototype.startReadMessage = function(cb) {
 }
 
 function IoTHubReaderClient(connectionString, consumerGroupName) {
+  console.log("Connection string is: ", connectionString)
+  console.log("Consumer group is: ", consumerGroupName)
   this.connectionString = connectionString;
   this.consumerGroupName = consumerGroupName;
   this.iotHubClient = undefined;
